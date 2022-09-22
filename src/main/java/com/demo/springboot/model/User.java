@@ -1,4 +1,4 @@
-package com.example.springboot.model;
+package com.demo.springboot.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,7 +26,6 @@ public class User {
 	}
 	
 	public User(int id, String userName, String password) {
-		super();
 		this.id = id;
 		this.userName = userName;
 		this.password = password;
