@@ -7,6 +7,10 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+
 import org.json.JSONException;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
@@ -15,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import com.demo.springboot.model.CurrentStock;
+
 
 @Service
 public class CurrentStockService {
@@ -25,7 +30,14 @@ public class CurrentStockService {
 	public ArrayList<CurrentStock> fetchStockData() throws IOException, InterruptedException, JSONException {
 
 		ArrayList<String> company = new ArrayList<String>(
-				Arrays.asList("TCS", "INFY"));
+				Arrays.asList("TCS","INFY","ACC","AMBUJACEM","ASIANPAINT","AXISBANK","BPCL","CIPLA"));
+						/*
+						,"HDFC","ITC"));
+						
+						"ICICIBANK","IDEA","KOTAKBANK","M&M","PNB",
+						"RELIANCE","SBIN","TATAMOTORS","TATAPOWER","TECHM",
+						"ULTRACEMCO","VEDL","WIPRO","YESBANK","ZEEL",
+						"SUNPHARMA","TATASTEEL","ONGC","LUPIN","HINDUNILVR"));*/
 		/*
 		 * TCS - TCS
 		 * Infosys - INFY
@@ -74,16 +86,20 @@ public class CurrentStockService {
 		//.NO //.BO
 		HttpRequest request = HttpRequest.newBuilder()
 				.uri(URI.create(Yahoo_finance_API_URL))
-				.header("x-api-key", "xt5IOlkFWI2Gx5kjKirvN4W7WyQWy4uH1I637GU6")
+				.header("x-api-key", "yAr1FkULkd6EAdr3FwjRJ6gYxayUFB1V7S3Fb9iU")
 				.method("GET", HttpRequest.BodyPublishers.noBody())
 				.build();
-
+		//yAr1FkULkd6EAdr3FwjRJ6gYxayUFB1V7S3Fb9iU
+		//JXhBaYR2Dq6sV0ATURzbm2iHVZIGThmu3X79Hmsq
+		//4sbstDEPau6pkr8FbI7PG2rRiUVOxArY7OHsLrf9
+		//L1hLENIvMG4CVK10CIj7ztv1CDxRjksam5rVjhU2
+		//xt5IOlkFWI2Gx5kjKirvN4W7WyQWy4uH1I637GU6
 
 		HttpResponse<String> httpResponse = HttpClient.newHttpClient()
 				.send(request, HttpResponse.BodyHandlers.ofString());
 
 		//System.out.println(httpResponse.body());
-		logger.info(httpResponse.body());
+		//logger.info(httpResponse.body());
 
 
 		JSONObject jsonObject = null;
@@ -107,7 +123,8 @@ public class CurrentStockService {
 		ArrayList<CurrentStock> stocksDetails = fetchStockData();
 
 		ArrayList<CurrentStock> savedStocks = new ArrayList<>();
-
+		
+		//HashMap<String, Double> map = new HashMap<>(); 
 
 		for(int i = 0; i < stocksDetails.size(); i++) {
 
@@ -129,6 +146,9 @@ public class CurrentStockService {
 			int r = (int)(profit * 100);
 			double p = r / 100.0;
 
+			//logger.info(String.valueOf(cso.getBsePrice()));
+			//logger.info(String.valueOf(cso.getNsePrice()));
+			//logger.info(String.valueOf(p));
 			cso.setProfit(p);
 
 			//set recommendation
@@ -137,14 +157,30 @@ public class CurrentStockService {
 			else
 				cso.setRecommendation("Buy from NSE, sell in BSE");
 
-			//saving stock data
-			//if(p >= 0.1) {
+			
 			savedStocks.add(cso);
-			//}
+			
+			//map.put(cso.getCompanyName(),cso.getProfit());
+
+			Collections.sort(savedStocks, new StockComparator());
 
 		}
 
 		return savedStocks;
 	}
 
+}
+
+class StockComparator implements Comparator<CurrentStock> {
+
+	// override the compare() method
+	public int compare(CurrentStock s1, CurrentStock s2)
+	{
+		if (s1.getProfit() == s2.getProfit())
+			return 0;
+		else if (s1.getProfit() < s2.getProfit())
+			return 1;
+		else
+			return -1;
+	}
 }
