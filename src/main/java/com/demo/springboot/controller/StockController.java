@@ -7,11 +7,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.json.JSONException;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +28,7 @@ import com.demo.springboot.service.StocksService;
 
 @Component
 @RestController
+@CrossOrigin("http://localhost:4200")
 public class StockController {
 
 	@Autowired
@@ -42,7 +47,7 @@ public class StockController {
 	@GetMapping("/getRecommendations")
 	public ArrayList<CurrentStock> getRecommendations() throws IOException, InterruptedException, JSONException {
 		ArrayList<CurrentStock> ar = currentStockService.getRecommendations();
-		ArrayList<CurrentStock> ar1 = new ArrayList();
+		ArrayList<CurrentStock> ar1 = new ArrayList<>();
 		for(int i = 0; i < 5; i++) {
 			ar1.add(ar.get(i));
 		}
@@ -50,9 +55,22 @@ public class StockController {
 	}
 
 	//save stocks of user
-//	@PostMapping("/saveStock")
-//	public SavedStock saveStock(@RequestBody CurrentStock saveStock) {
-//		return stockService.saveStock(saveStock);
+	@PostMapping("/saveStock")
+	public SavedStock saveStock(@RequestBody CurrentStock saveStock) {
+		//logger.info(saveStock.getCompanyName());
+		CurrentStock c = new CurrentStock();
+		c = saveStock;
+		//logger.info(c.getCompanyName());
+		//logger.info(String.valueOf(c.getBsePrice()));
+		//logger.info(c.getBsePrice());
+		return stockService.saveStock1(c);
+	}
+
+	//@PostMapping("/saveStock")
+//	public String saveStock(@ModelAttribute String companyName) {
+//		logger.info(companyName);
+//		stockService.saveStock1(companyName);
+//		return companyName;
 //	}
 
 	//get saved stocks by username

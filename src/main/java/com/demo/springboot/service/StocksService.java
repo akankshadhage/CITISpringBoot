@@ -2,7 +2,13 @@ package com.demo.springboot.service;
 
 import java.util.ArrayList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.demo.springboot.dao.StockDao;
@@ -10,6 +16,7 @@ import com.demo.springboot.model.CurrentStock;
 import com.demo.springboot.model.SavedStock;
 import com.demo.springboot.repository.StockRepository;
 
+@Component
 @Service
 public class StocksService {
 
@@ -22,12 +29,34 @@ public class StocksService {
 	@Autowired
 	StockRepository stockRepository;
 	
-	/*public SavedStock saveStock(CurrentStock cso) {
-		//SavedStock s = new SavedStock();
-		return stockRepository.saveStock(savingStocks.save(cso));
+	private Logger logger = LoggerFactory.getLogger(CurrentStockService.class);
+	
+//	public SavedStock saveStock(CurrentStock cso) {
+//		SavedStock s = new SavedStock();
+//		String user = currentUser();
+//		s = savingStocks.save(cso, user);
+//		//logger.info(s.getDate());
+//		return stockRepository.save(s);
+//	}
+	
+	public SavedStock saveStock1(CurrentStock cso) {
+		logger.info(cso.getCompanyName());
+		SavedStock s = new SavedStock();
+		String user = currentUser();
+		s = savingStocks.save(cso, user);
+		logger.info(s.getCompanyName());
+		return stockRepository.save(s);
 	}
 	
-	
+	public String currentUser() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+		    String currentUserName = authentication.getName();
+		    return currentUserName;
+		}
+		return null;
+	}
+	/*
 	public ArrayList<CurrentStock> getSavedStocks(String username) {
 		ArrayList<CurrentStock> savedStocks = null;
 		savedStocks = stockRepository.findAllById(username);

@@ -12,8 +12,8 @@ import com.demo.springboot.model.SavedStock;
 @Repository
 public interface StockRepository extends JpaRepository<SavedStock, Integer> {
 
-	//public SavedStock saveStock(SavedStock saveStock);
-	
+	//public SavedStock save(String s);
+
 	//ArrayList<CurrentStock> findAllById(String username);
 
 	//int deleteBySavedStock_UserNameId(String username, int id);

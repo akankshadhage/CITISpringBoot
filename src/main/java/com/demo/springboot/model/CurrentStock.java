@@ -11,22 +11,17 @@ public class CurrentStock {
 	double nsePrice;
 	double profit;
 	String recommendation;
-	LocalDate date;
-	LocalTime time;
 	
 	public CurrentStock() {
 		
 	}
 	
-	public CurrentStock(String companyName, double bsePrice, double nsePrice, double profit, String recommendation,
-			LocalDate date, LocalTime time) {
+	public CurrentStock(String companyName, double bsePrice, double nsePrice, double profit, String recommendation) {
 		this.companyName = companyName;
 		this.bsePrice = bsePrice;
 		this.nsePrice = nsePrice;
 		this.profit = profit;
 		this.recommendation = recommendation;
-		this.date = date;
-		this.time = time;
 	}
 	
 	
@@ -35,22 +30,6 @@ public class CurrentStock {
 	}
 	public void setRecommendation(String recommendation) {
 		this.recommendation = recommendation;
-	}
-
-	public LocalDate getDate() {
-		return date;
-	}
-
-	public void setDate(LocalDate date) {
-		this.date = date;
-	}
-
-	public LocalTime getTime() {
-		return time;
-	}
-
-	public void setTime(LocalTime time) {
-		this.time = time;
 	}
 	public String getCompanyName() {
 		return companyName;

@@ -30,14 +30,12 @@ public class CurrentStockService {
 	public ArrayList<CurrentStock> fetchStockData() throws IOException, InterruptedException, JSONException {
 
 		ArrayList<String> company = new ArrayList<String>(
-				Arrays.asList("TCS","INFY","ACC","AMBUJACEM","ASIANPAINT","AXISBANK","BPCL","CIPLA"));
-						/*
-						,"HDFC","ITC"));
-						
+				Arrays.asList("TCS","INFY","ACC","AMBUJACEM","ASIANPAINT","AXISBANK",
+						"BPCL","CIPLA","HDFC","ITC",
 						"ICICIBANK","IDEA","KOTAKBANK","M&M","PNB",
 						"RELIANCE","SBIN","TATAMOTORS","TATAPOWER","TECHM",
 						"ULTRACEMCO","VEDL","WIPRO","YESBANK","ZEEL",
-						"SUNPHARMA","TATASTEEL","ONGC","LUPIN","HINDUNILVR"));*/
+						"SUNPHARMA","TATASTEEL","ONGC","LUPIN","HINDUNILVR"));
 		/*
 		 * TCS - TCS
 		 * Infosys - INFY
@@ -89,17 +87,23 @@ public class CurrentStockService {
 				.header("x-api-key", "yAr1FkULkd6EAdr3FwjRJ6gYxayUFB1V7S3Fb9iU")
 				.method("GET", HttpRequest.BodyPublishers.noBody())
 				.build();
+		//x20AQZ48Se4jFD5GQOnoq4yYRVTIrrob5XGmAaRM
+		//V5EdC8R0mr6lhxorDk9iz1GcVQblWum8aGXQTZKq
+		//kpXgwiaxxEJSlximlUQG9hsBFVkaDA946S3m3Woh
+		//P09IckeEPv2GigXs091iB1DfzG1zs0cL1gg4w4y4
 		//yAr1FkULkd6EAdr3FwjRJ6gYxayUFB1V7S3Fb9iU
 		//JXhBaYR2Dq6sV0ATURzbm2iHVZIGThmu3X79Hmsq
 		//4sbstDEPau6pkr8FbI7PG2rRiUVOxArY7OHsLrf9
 		//L1hLENIvMG4CVK10CIj7ztv1CDxRjksam5rVjhU2
 		//xt5IOlkFWI2Gx5kjKirvN4W7WyQWy4uH1I637GU6
+		//2C6agRvPlu3iIcA5CLF7a2GGvv4U746k4W16kwek
+		//C8ARmg88aY6Kujb9z3NRL2cowd7xTMf83eN1Zk9a
 
 		HttpResponse<String> httpResponse = HttpClient.newHttpClient()
 				.send(request, HttpResponse.BodyHandlers.ofString());
 
 		//System.out.println(httpResponse.body());
-		//logger.info(httpResponse.body());
+		logger.info(httpResponse.body());
 
 
 		JSONObject jsonObject = null;
@@ -153,9 +157,9 @@ public class CurrentStockService {
 
 			//set recommendation
 			if(cso.getNsePrice() > cso.getBsePrice())
-				cso.setRecommendation("Buy from BSE, sell in NSE");
+				cso.setRecommendation("BSE");
 			else
-				cso.setRecommendation("Buy from NSE, sell in BSE");
+				cso.setRecommendation("NSE");
 
 			
 			savedStocks.add(cso);

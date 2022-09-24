@@ -32,10 +32,10 @@ public class SavedStock {
 	String recommendation;
 	
 	@Column(name="date")
-	LocalDate date;
+	String date;
 	
 	@Column(name="time")
-	LocalTime time;
+	String time;
 	
 	public SavedStock() {
 		
@@ -77,17 +77,17 @@ public class SavedStock {
 	public void setRecommendation(String recommendation) {
 		this.recommendation = recommendation;
 	}
-	public LocalDate getDate() {
+	public String getDate() {
 		return date;
 	}
-	public void setDate(LocalDate date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
-	public LocalTime getTime() {
+	public String getTime() {
 		return time;
 	}
-	public void setTime(LocalTime time) {
-		this.time = time;
+	public void setTime(String formatDateTime) {
+		this.time = formatDateTime;
 	}
 	
 }

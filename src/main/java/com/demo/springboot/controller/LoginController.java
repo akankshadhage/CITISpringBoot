@@ -6,6 +6,7 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +17,7 @@ import com.demo.springboot.service.UserService;
 
 @Component
 @RestController
+@CrossOrigin("http://localhost:4200")
 public class LoginController {
 
 	@Autowired
@@ -28,20 +30,21 @@ public class LoginController {
 	}
 
 	@PostMapping("/login")
-	public User loginUser(@RequestBody User user) throws Exception {
+	public boolean loginUser(@RequestBody User user) throws Exception {
 		String tempUserName = user.getUserName();
 		String tempPassword = user.getPassword();
 		User userObj = null;
 
 		if(tempUserName != null && tempPassword != null) {
 			userObj = userService.fetchUserByUserNameAndPassword(tempUserName, tempPassword);
+			return true;
 		}
 
 		if(userObj == null) {
 			throw new Exception("bad credetials");
 		}
 
-		return userObj;
+		return false;
 
 		//boolean userObj = false;
 		//		
@@ -54,16 +57,6 @@ public class LoginController {
 		//		} 
 		//		
 		//		return "redirect:/";
-	}
-
-	@GetMapping
-	public String currentUser() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (!(authentication instanceof AnonymousAuthenticationToken)) {
-		    String currentUserName = authentication.getName();
-		    return currentUserName;
-		}
-		return null;
 	}
 
 }

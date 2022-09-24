@@ -1,25 +1,33 @@
 package com.demo.springboot.service;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+
+import javax.swing.text.DateFormatter;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.demo.springboot.controller.LoginController;
 import com.demo.springboot.model.CurrentStock;
 import com.demo.springboot.model.SavedStock;
-
+import java.time.LocalDateTime;  
+import java.time.format.DateTimeFormatter;  
+@Component
 public class savingStocks {
 
 	@Autowired
 	UserService userService;
 	
-	public static SavedStock save(CurrentStock cso) {
+	public static SavedStock save(CurrentStock cso, String user) {
 		
 		SavedStock sso = new SavedStock(); 
 		
 		//set current user
-		sso.setUserName(null);//////////////////////
+		sso.setUserName(user);//////////////////////
 		
 		//set name
 		sso.setCompanyName(cso.getCompanyName());
@@ -34,12 +42,19 @@ public class savingStocks {
 		sso.setProfit(cso.getProfit());
 
 		//set time
-		LocalTime time = LocalTime.now();
-		sso.setTime(time);
-
+		//Time time = new Time();
+		//SimpleTimeFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		//LocalTime time = LocalTime.now();
+		//String time1 = formatter.format(time);
+		//sso.setDate(time1);
+		sso.setTime(null);
+		
 		//set date
-		LocalDate date = LocalDate.now();
-		sso.setDate(date);
+		//Date date = new Date();
+		//SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		//LocalDate date1 = LocalDate.now();
+		//String date2 = formatter.format(date1);
+		sso.setDate(null);
 		
 		return sso;
 		
